@@ -1,0 +1,14 @@
+package aopazo;
+
+import com.mongodb.ConnectionString;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+
+public class MongoCliTest1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

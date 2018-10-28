@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # conexion para zoo-navigator es zk-chs.default.svc.cluster.local
+  name: zk-chs
+  labels:
+    app: zk
+spec:
+  ports:
+  # the port to listen for client connections; that is, the port that clients attempt to connect to
+  # por ejemplo - 
+  # $zookeeper/bin$ zkCli.sh -server zk-1.zk-hs.default.svc.cluster.local:2181
+  #    zookeeper@zk-0:/opt/zookeeper/bin$ zkCli.sh -server zk-1.zk-hs.default.svc.cluster.local:2181
+  #    Connecting to zk-1.zk-hs.default.svc.cluster.local:2181
+  #     2018-10-16 16:38:48,822 [myid:] - INFO  [main:Environment@100] - Client environment:zookeeper.version=....
+
+  - port: 2181
+    name: client
+  clusterIP: None # headlesss
+  selector:
+    app: zk
+
+# for i in 0 1 2; do kubectl exec zk-$i -- hostname -f; done
+# zk-0.zk-hs.default.svc.cluster.local
+# zk-1.zk-hs.default.svc.cluster.local
+# zk-2.zk-hs.default.svc.cluster.local
+

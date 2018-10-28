@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: znav-ingress
+spec:
+  backend:
+    serviceName: znav-svc
+    servicePort: 8000
+
+#  rules:
+#  - host: znav
+#    http:
+#      paths:
+#      - path: /*
+

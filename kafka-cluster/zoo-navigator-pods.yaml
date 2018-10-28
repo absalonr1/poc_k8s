@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: z-nav
+  name: z-nav
+  namespace: default
+spec:
+  containers:
+    - name: zoo-navigator-api
+      imagePullPolicy: IfNotPresent #Always
+      image: elkozmon/zoonavigator-api:0.5.0
+      imagePullPolicy: Always
+      env:
+      - name: API_HTTP_PORT
+        value: "9000"
+      ports:
+      - containerPort: 9000
+        protocol: TCP
+    - name: zoo-navigator-web
+      image: elkozmon/zoonavigator-web:0.5.0 #Always
+      imagePullPolicy: IfNotPresent
+      env:
+      - name: WEB_HTTP_PORT
+        value: "8000"
+      - name: API_HOST
+        value: "localhost"
+      - name: API_PORT
+        value: "9000"
+      ports:
+      - containerPort: 8000
+        protocol: TCP
+  hostname: z-nav
