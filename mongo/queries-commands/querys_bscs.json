@@ -1,0 +1,99 @@
+db.contract_all.aggregate([
+   {
+       $lookup: {
+           from:"customer_all",
+           localField: "customer_id",
+           foreignField: "customer_id",
+           as:"contract_customer_rel"
+       },
+       {
+           $unwind:"$contract_customer_rel"
+       },
+       $project:{
+           "customer_id":  "$contract_customer_rel.customer_id"
+       }
+   }
+]);
+
+// -----------------------------
+
+var c = db.contract.aggregate([{
+    $match: {
+      CUSTOMER_ID:18492
+    }
+  },
+  {
+    $lookup: {
+      from: "customer",
+      localField: "CUSTOMER_ID",
+      foreignField: "_id",
+      as: "customers"
+    }
+  },
+  {
+    $project: {
+      CUSTOMER_ID: "$CUSTOMER_ID",
+      CO_ID: "$_id",
+      CUSTOMER: "$customers"
+    }
+  }
+]);
+
+// -----------------------------
+
+db.contract.aggregate([
+{
+    $match: {
+      CUSTOMER_ID:18492
+    }
+  },
+  {
+    $lookup: {
+      from: "customer",
+      localField: "CUSTOMER_ID",
+      foreignField: "_id",
+	as: "customer"
+    }
+  },
+  {
+    $lookup: {
+      from: "contr_services_cap",
+      localField: "_id",
+      foreignField: "CO_ID",
+      as: "rel"
+    }
+  }
+]);
+
+// -----------------------------
+
+db.contract.aggregate([
+{
+    $match: {
+      CUSTOMER_ID:18492
+    }
+  },
+  {
+    $lookup: {
+      from: "customer",
+      localField: "CUSTOMER_ID",
+      foreignField: "_id",
+	as: "customer"
+    }
+  },
+  {
+    $lookup: {
+      from: "contr_services_cap",
+      localField: "_id",
+      foreignField: "CO_ID",
+      as: "rel"
+    }
+  },
+  { 
+	$project : { 
+		"contr_services_cap-CO_ID" : "$rel.CO_ID", 
+		"customer-id" : "$customer._id", 
+		"contract-co_id" : "$contract._id"
+	} 
+  }
+]);

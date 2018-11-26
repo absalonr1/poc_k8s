@@ -1,0 +1,56 @@
+// input:  resource_type = MSISDN, value ={MSISDN}
+// input:  {RUT}
+// input:  {ACCOUNT_ID}
+
+{
+	"rut":"rut",
+	"accounts":
+		[
+			{
+			  "rut": "string",
+			  "accountId": "string",
+			  "accountIdHigh": "string",
+			  "csLevel": "string",
+			  "custCode": "string",
+			  "accountType": "string",
+			  "accountActivate": "2018-10-08T11:45:06.040Z",
+			  "accountDeactivate": "2018-10-08T11:45:06.040Z",
+			  "externalAccountId": "string",
+			  "state": "string",
+			  "docTypeId": "string",
+			  "docTypeDesc": "string",
+			  "docTypeOutputCode": "string",
+			  "billCycle": {
+			    "accountId": "string",
+			    "billCycle": "string",
+			    "intervalType": "string",
+			    "lastRunDate": "2018-10-08T11:45:06.040Z",
+			    "bchRunDate": "2018-10-08T11:45:06.040Z"
+			  },
+			  "subscribers": [
+			    {
+						"rut": "string",
+						"accountId": "string",
+						"subscriberId": "string",
+						"subscriberType": "string",
+						"subscriberIdContract": "string",
+						"subscriberActivate": "2018-10-08T11:45:06.040Z",
+						"subscriberExpired": "2018-10-08T11:45:06.040Z",
+						"state": "string",
+						"subscriberResources": [
+							{
+								"subscriberId": "string",
+								"resourceId": "string",
+								"resource": "string",
+								"resourceDescription": "string",
+								"resourceActivate": "2018-10-08T11:45:06.040Z",
+								"resourceDeactivate": "2018-10-08T11:45:06.040Z",
+								"resourceState": "string",
+								"resourceType": "string"
+							}
+						]
+			    }
+			  ]
+			}
+		]
+}

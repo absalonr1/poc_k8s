@@ -1,0 +1,1 @@
+docker run --rm --name fluentd -d -p 24224:24224 -p 24224:24224/udp -v /data:/fluentd/log fluent/fluentd:v1.2.6

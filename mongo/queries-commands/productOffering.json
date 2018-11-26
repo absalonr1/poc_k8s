@@ -1,0 +1,136 @@
+{
+  "_id": ObjectId("5bb645bbaab3eed99fca9917"),
+  "offerId": "string",
+  "name": "absalon",
+  "shortDescription": "string",
+  "lastUpdate": "2018-09-27T17:23:11.689Z",
+  "status": "string",
+  "validFor": "2018-09-27T17:23:11.689Z",
+  "version": 1,
+  "isSellable": "string",
+  "price": {
+    "oneTime": {
+      "amount": {
+        "unit": "string",
+        "value": "string"
+      },
+      "currency": "string",
+      "duration": "string",
+      "unitOfMeasure": "string"
+    },
+    "recurringCharge": {
+      "amount": {
+        "unit": "string",
+        "value": "string"
+      },
+      "currency": "string",
+      "frecuency": "string",
+      "unitOfMeasure": "string"
+    }
+  },
+  "channel": [{
+    "name": "string",
+    "legacySystem": "string"
+  }],
+  "marketSegment": "string",
+  "familyOffer": "string",
+  "typeOffer": "string",
+  "layoutTypeAPP": "string",
+  "bundleProductOffering": [{
+    "id": "string",
+    "offerId": "string",
+    "shDes": "string",
+    "name": "string",
+    "description": "string",
+    "status": "string",
+    "priority": "string",
+    "minimumRequired": "string",
+    "maximunAllowed": "string",
+    "isOfferProduct": true,
+    "isOptionProduct": true,
+    "isPromotionProduct": true,
+    "occ": "string",
+    "sku": "string",
+    "price": {
+      "oneTime": {
+        "amount": {
+          "unit": "string",
+          "value": "string"
+        },
+        "currency": "string",
+        "duration": "string",
+        "unitOfMeasure": "string"
+      },
+      "recurringCharge": {
+        "amount": {
+          "unit": "string",
+          "value": "string"
+        },
+        "currency": "string",
+        "frecuency": "string",
+        "unitOfMeasure": "string"
+      }
+    },
+    "characteristics": [{
+      "id": "string",
+      "unitType": "string",
+      "unitOfMeasure": "string",
+      "quantity": "string",
+      "commandService": [{
+        "id": "string",
+        "market": "string",
+        "command": [{
+          "id": "string",
+          "subsystemMarket": "string",
+          "register": "string",
+          "erase": "string",
+          "activate": "string",
+          "deactivate": "string"
+        }]
+      }]
+    }],
+    "channel": [{
+      "name": "string",
+      "legacySystem": "string"
+    }]
+  }],
+  "packageService": [{
+    "id": "string",
+    "name": "string",
+    "shortDescription": "string",
+    "service": [{
+      "id": "string",
+      "name": "string",
+      "shortDescription": "string",
+      "accessFee": 0,
+      "subscript": 0,
+      "event": "string",
+      "isCore": true,
+      "status": "string",
+      "channel": [{
+        "name": "string",
+        "legacySystem": "string"
+      }],
+      "commandService": [{
+        "id": "string",
+        "market": "string",
+        "command": [{
+          "id": "string",
+          "subsystemMarket": "string",
+          "register": "string",
+          "erase": "string",
+          "activate": "string",
+          "deactivate": "string"
+        }]
+      }]
+    }]
+  }],
+  "deviceOffering": [{
+    "shDes": "string",
+    "deviceName": "string",
+    "modality": "string",
+    "cost": 0,
+    "partNum": "string",
+    "sku": "string"
+  }]
+}

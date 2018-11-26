@@ -1,0 +1,43 @@
+mongoimport --host localhost --port 27017 -c restaurants restaurants.json
+
+docker run -it --rm --name mongo -v mongo-poc-data:/data mongo:3.2.20-jessie mongod
+docker exec -it mongo bin/bash
+
+----------------------------------------------------------------------------------------
+docker run -it --rm --name mongo mongo:4.0.3 mongod
+
+docker run -it --rm --name mongo --mount 'type=bind,source=/home/absalon/_data,target=/data/db' mongo:4.0.3 mongod
+docker run -it --rm --name mongo --mount 'type=bind,source=/home/absalon/mongo-map-reduce/data,target=/data' mongo:4.0.3 mongod
+ 
+
+docker exec -it mongo bin/bash
+mongoimport --host localhost --port 27017 --mode upsert -c restaurants rest2.json
+
+
+-------------------
+mongoexport --db test --collection csv2 --out bank_all.json
+
+mongo --eval 'db.contract.aggregate([{$match: {  CUSTOMER_ID:18492}  },  {$lookup: {  from: "customer",  localField: "CUSTOMER_ID",  foreignField: "_id",  as: "customers"}  },  {$project: {  CUSTOMER_ID: "$CUSTOMER_ID",  CO_ID: "$_id",  CUSTOMER: "$customers"}  }])' >> test2.txt
+------------------------------------------
+
+var f1 = function() {
+	   emit(this.DNA, this);
+	};
+var f2 = function(key, values) {
+	reducedVal = { dias: [] };
+reducedVal.dias = values;
+	   return reducedVal;
+	};
+db.runCommand(
+               {
+                 mapReduce: "tmp2",
+                 map: f1,
+                 reduce:f2,
+                 out: { merge: "mr" },
+		verbose: true
+               }
+             );
+
+
+
+
