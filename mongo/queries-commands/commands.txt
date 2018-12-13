@@ -12,6 +12,7 @@ docker run -it --rm --name mongo --mount 'type=bind,source=/home/absalon/mongo-m
 
 docker exec -it mongo bin/bash
 mongoimport --host localhost --port 27017 --mode upsert -c restaurants rest2.json
+mongoimport --host localhost --port 27017 --type csv -c contract_history --headerline export_contract_history.csv 
 
 
 -------------------
