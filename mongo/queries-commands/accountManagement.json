@@ -2,55 +2,74 @@
 // input:  {RUT}
 // input:  {ACCOUNT_ID}
 
+
 {
-	"rut":"rut",
-	"accounts":
-		[
-			{
-			  "rut": "string",
-			  "accountId": "string",
-			  "accountIdHigh": "string",
-			  "csLevel": "string",
-			  "custCode": "string",
-			  "accountType": "string",
-			  "accountActivate": "2018-10-08T11:45:06.040Z",
-			  "accountDeactivate": "2018-10-08T11:45:06.040Z",
-			  "externalAccountId": "string",
-			  "state": "string",
-			  "docTypeId": "string",
-			  "docTypeDesc": "string",
-			  "docTypeOutputCode": "string",
-			  "billCycle": {
-			    "accountId": "string",
-			    "billCycle": "string",
-			    "intervalType": "string",
-			    "lastRunDate": "2018-10-08T11:45:06.040Z",
-			    "bchRunDate": "2018-10-08T11:45:06.040Z"
-			  },
-			  "subscribers": [
-			    {
-						"rut": "string",
-						"accountId": "string",
-						"subscriberId": "string",
-						"subscriberType": "string",
-						"subscriberIdContract": "string",
-						"subscriberActivate": "2018-10-08T11:45:06.040Z",
-						"subscriberExpired": "2018-10-08T11:45:06.040Z",
-						"state": "string",
-						"subscriberResources": [
-							{
-								"subscriberId": "string",
-								"resourceId": "string",
-								"resource": "string",
-								"resourceDescription": "string",
-								"resourceActivate": "2018-10-08T11:45:06.040Z",
-								"resourceDeactivate": "2018-10-08T11:45:06.040Z",
-								"resourceState": "string",
-								"resourceType": "string"
-							}
-						]
-			    }
-			  ]
-			}
-		]
+   "rut":"string",
+   "account":[
+      {
+         "rut":"string",
+         "accountId":"string",
+         "accountIdHigh":"string",
+         "csLevel":"string",
+         "custCode":"string",
+         "accountType":"string",
+         "accountActivate":"2018-10-25T13:49:52.143Z",
+         "accountDeactivate":"2018-10-25T13:49:52.143Z",
+         "externalAccountId":"string",
+         "state":"string",
+         "docTypeId":"string",
+         "docTypeDesc":"string",
+         "docTypeOutputCode":"string",
+         "billCycle":{
+            "accountId":"string",
+            "billCycle":"string",
+            "intervalType":"string",
+            "lastRunDate":"2018-10-25T13:49:52.144Z",
+            "bchRunDate":"2018-10-25T13:49:52.144Z",
+            "billCycleDes":"string"
+         },
+         "subscribers":[
+            {
+               "rut":"string",
+               "accountId":"string",
+               "subscriberId":"string",
+               "subscriberType":"string",
+               "subscriberIdContract":"string",
+               "subscriberActivate":"2018-10-25T13:49:52.144Z",
+               "subscriberExpired":"2018-10-25T13:49:52.144Z",
+               "state":"string",
+               "subscriberResources":[
+                  {
+                     "subscriberId":"string",
+                     "resourceId":"string",
+                     "resource":"string",
+                     "resourceDescription":"string",
+                     "resourceActivate":"2018-10-25T13:49:52.144Z",
+                     "resourceDeactivate":"2018-10-25T13:49:52.144Z",
+                     "resourceState":"string",
+                     "resourceType":"string"
+                  }
+               ]
+            }
+         ],
+         "paymentMethod":[
+            {
+               "accountId":"string",
+               "sequency":"string",
+               "paymentId":"string",
+               "paymentCode":"string",
+               "paymentName":"string",
+               "paymentFlow":"string",
+               "pmod":"string",
+               "entryDate":"2018-10-25T13:49:52.144Z",
+               "modifyDate":"2018-10-25T13:49:52.144Z",
+               "userLastModify":"string",
+               "bankId":"string",
+               "bankName":"string",
+               "bankCode":"string",
+               "bankType":"string"
+            }
+         ]
+      }
+   ]
 }
