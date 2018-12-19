@@ -98,6 +98,9 @@ db.bah.find({"CUSTOMER_ID":10006}).explain("executionStats")
 
 db.customer_all.find({"CSCOMPREGNO" : 760079790 } ).count()
 
+SAMPLE: 
+	db.customer_all.find({"_id":86, "CSCOMPREGNO" : 98344101})
+	db.customer_all.find({"CSCOMPREGNO" : 139052781})
 
 
 --------------------------------------------
@@ -558,63 +561,305 @@ db.customer_all.aggregate([
 ]).pretty()
 
 
+-- ################################################################################
+--
+--- 2.3.2 PRETTY
+--
+-- ################################################################################
 
--- v2.4
-
-db.customer_all.aggregate([
-
-  {
-    $lookup: {
-      from: "bah",
-	 let: {cid: "$_id", fecha:"26-DEC-30" },
-	  pipeline: [
-		{ $match:
-                 { $expr:
-                    { $and:
-                       [
-							{ $eq: [ "$CUSTOMER_ID",  "$$cid" ] }
-                       ]
+db.customer_all.aggregate([{
+        $match: {
+            _id: 10006
+        }
+    },
+    {
+        $lookup: {
+            from: "bah",
+            let: {
+                cid: "$_id",
+                fecha: "26-DEC-30"
+            },
+            pipeline: [{
+                    $match: {
+                        $expr: {
+                            $and: [{
+                                    $eq: ["$CUSTOMER_ID", "$$cid"]
+                                },
+                                {
+                                    $lte: ["$VALID_FROM", "$$fecha"]
+                                }
+                            ]
+                        }
                     }
-                 }
-         }
-		,
-		{
-			$sort:{
-				"VALID_FROM":-1,
-				"SEQNO":-1
-			}
-		},
-		{
-			$limit:1
-		}
-	  ],
-	  as: "join1"
-     }
-   }
-   ,
-   {
-      $project: {
-		_id:"$_id",
-		rut: "$CSCOMPREGNO",
-		accountId: "$CUSTOMER_ID",
-		accountIdHigh: "$CUSTOMER_ID_HIGH",
-		paymentResp: "$PAYMNTRESP",
-		csLevel: "$CSLEVEL",
-		custCode: "$CUSTCODE",
-		accountType: "$CSTYPE",
-		accountActivate: "$CSACTIVATED",
-		join1: true
-  	  }
-   },
-	{ $out: "account_and_billing" }
+                },
+                {
+                    $sort: {
+                        "VALID_FROM": -1,
+                        "SEQNO": -1
+                    }
+                },
+                {
+                    $limit: 1
+                }
+            ],
+            as: "join1"
+        }
+    },
+
+    {
+        $lookup: {
+            from: "billcycle_definition",
+            let: {
+                billid: {
+                    $arrayElemAt: ["$join1.BILLCYCLE", 0]
+                }
+            },
+            pipeline: [{
+                $match: {
+                    $expr: {
+                        $and: [{
+                            $eq: ["$_id", "$$billid"]
+                        }]
+                    }
+                }
+            }],
+            as: "bill"
+        }
+    },
+    {
+        $project: {
+            _id: false,
+            accountId: "$_id",
+            rut: "$CSCOMPREGNO",
+            accountIdHigh: "$CUSTOMER_ID_HIGH",
+            paymentResp: "$PAYMNTRESP",
+            csLevel: "$CSLEVEL",
+            custCode: "$CUSTCODE",
+            accountType: "$CSTYPE",
+            accountActivate: "$CSACTIVATED",
+            accountDeactivate: "$CSDEACTIVATED",
+            externalAccountId: "$CUSTOMER_ID_EXT",
+            docTypeId: "$DOCTYPE_ID",
+            docTypeDesc: "$DOCTYPE_DESC",
+            docTypeOutputCode: "$DOCTYPE_OUTPUT_CODE",
+            billCycle: {
+                accountId: "$_id",
+                billCycle: {
+                    $arrayElemAt: ["$bill._id", 0]
+                },
+                intervalType: {
+                    $arrayElemAt: ["$bill.INTERVAL_TYPE", 0]
+                },
+                lastRunDate: {
+                    $arrayElemAt: ["$bill.LAST_RUN_DATE", 0]
+                },
+                bchRunDate: {
+                    $arrayElemAt: ["$bill.BCH_RUN_DATE", 0]
+                },
+                billCycleDes: {
+                    $arrayElemAt: ["$bill.DESCRIPTION", 0]
+                }
+
+            }
+        }
+    }
 ]).pretty()
 
 
+-- ################################################################################
+--
+--- 2.3.3
+--
+-- ################################################################################
 
+db.customer_all.aggregate([{
+        $match: {
+            _id: 10006
+        }
+    },
+    {
+        $lookup: {
+            from: "bah",
+            let: {
+                cid: "$_id"
+            },
+            pipeline: [{
+                    $match: {
+                        $expr: {
+                            $and: [{
+                                    $eq: ["$CUSTOMER_ID", "$$cid"]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    $sort: {
+                        "VALID_FROM": -1,
+                        "SEQNO": -1
+                    }
+                },
+                {
+                    $limit: 5
+                }
+            ],
+            as: "join1"
+        }
+    },
 
+    {
+        $lookup: {
+            from: "billcycle_definition",
+            let: {
+                billid: {
+                    $arrayElemAt: ["$join1.BILLCYCLE", 0]
+                }
+            },
+            pipeline: [{
+                $match: {
+                    $expr: {
+                        $and: [{
+                            $eq: ["$_id", "$$billid"]
+                        }]
+                    }
+                }
+            }],
+            as: "bill"
+        }
+    },
+    {
+        $project: {
+            _id: false,
+            accountId: "$_id",
+            rut: "$CSCOMPREGNO",
+            accountIdHigh: "$CUSTOMER_ID_HIGH",
+            paymentResp: "$PAYMNTRESP",
+            csLevel: "$CSLEVEL",
+            custCode: "$CUSTCODE",
+            accountType: "$CSTYPE",
+            accountActivate: "$CSACTIVATED",
+            accountDeactivate: "$CSDEACTIVATED",
+            externalAccountId: "$CUSTOMER_ID_EXT",
+            docTypeId: "$DOCTYPE_ID",
+            docTypeDesc: "$DOCTYPE_DESC",
+            docTypeOutputCode: "$DOCTYPE_OUTPUT_CODE",
+            billCycle: {
+                accountId: "$_id",
+                billCycle: {
+                    $arrayElemAt: ["$bill._id", 0]
+                },
+                intervalType: {
+                    $arrayElemAt: ["$bill.INTERVAL_TYPE", 0]
+                },
+                lastRunDate: {
+                    $arrayElemAt: ["$bill.LAST_RUN_DATE", 0]
+                },
+                bchRunDate: {
+                    $arrayElemAt: ["$bill.BCH_RUN_DATE", 0]
+                },
+                billCycleDes: {
+                    $arrayElemAt: ["$bill.DESCRIPTION", 0]
+                }
 
-SAMPLE: 
-	db.customer_all.find({"_id":86, "CSCOMPREGNO" : 98344101})
-	db.customer_all.find({"CSCOMPREGNO" : 139052781})
+            },
+			billCycleAssignmentHistory: "$join1"
+        }
+    }
+]).pretty()
 
---------------------------------------------------------------------
+-- Final
+
+db.customer_all.aggregate([{
+        $match: {
+            _id: 10006
+        }
+    },
+    {
+        $lookup: {
+            from: "bah",
+            let: {
+                cid: "$_id"
+            },
+            pipeline: [{
+                    $match: {
+                        $expr: {
+                            $and: [{
+                                    $eq: ["$CUSTOMER_ID", "$$cid"]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    $sort: {
+                        "VALID_FROM": -1,
+                        "SEQNO": -1
+                    }
+                },
+                {
+                    $limit: 5
+                }
+            ],
+            as: "join1"
+        }
+    },
+
+    {
+        $lookup: {
+            from: "billcycle_definition",
+            let: {
+                billid: {
+                    $arrayElemAt: ["$join1.BILLCYCLE", 0]
+                }
+            },
+            pipeline: [{
+                $match: {
+                    $expr: {
+                        $and: [{
+                            $eq: ["$_id", "$$billid"]
+                        }]
+                    }
+                }
+            }],
+            as: "bill"
+        }
+    },
+    {
+        $project: {
+            _id: false,
+            accountId: "$_id",
+            rut: "$CSCOMPREGNO",
+            accountIdHigh: "$CUSTOMER_ID_HIGH",
+            paymentResp: "$PAYMNTRESP",
+            csLevel: "$CSLEVEL",
+            custCode: "$CUSTCODE",
+            accountType: "$CSTYPE",
+            accountActivate: "$CSACTIVATED",
+            accountDeactivate: "$CSDEACTIVATED",
+            externalAccountId: "$CUSTOMER_ID_EXT",
+            docTypeId: "$DOCTYPE_ID",
+            docTypeDesc: "$DOCTYPE_DESC",
+            docTypeOutputCode: "$DOCTYPE_OUTPUT_CODE",
+            billCycle: {
+                accountId: "$_id",
+                billCycle: {
+                    $arrayElemAt: ["$bill._id", 0]
+                },
+                intervalType: {
+                    $arrayElemAt: ["$bill.INTERVAL_TYPE", 0]
+                },
+                lastRunDate: {
+                    $arrayElemAt: ["$bill.LAST_RUN_DATE", 0]
+                },
+                bchRunDate: {
+                    $arrayElemAt: ["$bill.BCH_RUN_DATE", 0]
+                },
+                billCycleDes: {
+                    $arrayElemAt: ["$bill.DESCRIPTION", 0]
+                }
+
+            },
+			billCycleAssignmentHistory: "$join1"
+        }
+    }
+]).pretty()
