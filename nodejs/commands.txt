@@ -1,0 +1,12 @@
+MONGO: 
+docker run -it --rm --name mongo --hostname mongo --network node-net -p 27017:27017 -v mongo-data:/data mongo:4.0.3 mongod
+
+NODE:
+
+docker run -it --rm --name my-running-script -v "$PWD":/usr/src/app -w /usr/src/app node:8 node your-daemon-or-script.js
+
+docker run --name node -p 3000:3000 --rm --network node-net -v "$PWD":/usr/src/app -w /usr/src/app node:8.14.0-jessie node ex1.js
+docker run node:8.14.0-jessie npm mongodb install
+
+
+docker run --name node -p 3000:3000 --rm --network node-net -v "$PWD":/usr/src/app -w /usr/src/app node:8.14.0-jessie node ex2.js

@@ -1,0 +1,22 @@
+{
+    "_id": ObjectID("5c4536df28135756d7f245c3"),
+    "BANK_ID": 39,
+    "BANKTYPE": "B",
+    "BANKCODE": 266,
+    "BANKNAME": "PAC",
+    "BANKLOC": "",
+    "BANKZIP": "",
+    "BANK_DEF": "",
+    "BANKSTREET": "",
+    "BANKSTREETNO": "",
+    "BANKSTATE": "",
+    "BANKCOUNTY": "",
+    "BANKCOUNTRY": "",
+    "SWIFTCODE": "",
+    "BANK_CONTROLKEY": "",
+    "INSERT_BY_USER": "",
+    "USERNAME": "",
+    "ENTDATE": "",
+    "MODDATE": "",
+    "REC_VERSION": 0
+}

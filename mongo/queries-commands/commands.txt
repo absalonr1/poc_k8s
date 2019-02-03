@@ -1,3 +1,78 @@
+mongo localhost:27017/productiondb -u KAn -p 6zrYv3hkVzCbqSaq script1.js 
+mongo localhost:27017/productiondb -u KAn -p 6zrYv3hkVzCbqSaq script3.js >> out1.txt
+
+--------
+db.test.find({ "C": { $type : "number" } }).forEach( function (x) {
+   x.C = x.C.toString();
+   db.test.save(x);
+});
+
+[Separador es '~']
+grep -oP "^([^~]*\~){34}\K[^~]*" CUSTOMER_ALL.csv > rut_2.csv
+grep -oP "^([^~]*\~){33}\K[^~]*" CUSTOMER_ALL.csv > rut_2.csv
+grep -c '^0'  rut_1.csv
+--------
+
+db.CUSTOMER_ALL.find({
+    $and: [{
+        "CSCOMPREGNO": {
+            $ne: "NULL"
+        }
+    }, 
+      {
+        "CSMODDATE": {
+            $gt: "2018-06-06"
+        }
+    }]
+}
+
+, {
+    _id: 0,
+    "CSCOMPREGNO": 1,
+    "CSMODDATE": 1
+})
+
+,
+    {"$expr": { "$gt": [ { "$strLenCP": "CSCOMPREGNO" }, 9 ] } }
+
+################################################################################################
+			TEST carga inicial sin shell de apoyo:
+################################################################################################
+
+sed -i -- 's/NULL/null/g' CUSTOMER_ALL.csv
+o
+sed -i -- 's/NULL//g' CUSTOMER_ALL.csv
+
+mongoimport --host localhost --port 27017 --type csv -c CUSTOMER_ALL --writeConcern 1 --fieldFile header_CUSTOMER_ALL CUSTOMER_ALL.csv 
+
+################################################################################################
+
+mongoimport --host localhost --port 27017 --type csv -c test --columnsHaveTypes --writeConcern 1 --fieldFile header.txt --ignoreBlanks imp
+
+
+
+A.int64()
+B.string()
+C.decimal()
+E.decimal()
+F.string()
+G.date(2006-01-02:15:04:05)
+H.date(2006-01-02:15:04:05)
+I.date(2006-01-02:15:04:05)
+J.int64()
+K.string()
+L.int64()
+
+69,,1.00000068,,a,2010-03-29:00:00:00,,2010-03-29:00:00:00,40,B,
+61,,1.00000068,,a,2010-03-29:00:00:00,,2010-03-29:00:00:00,40,B,
+62,luis,1.00000068,1.2,a,2010-03-29:00:00:00,,2010-03-29:00:00:00,40,B,
+63,,1.00000068,,a,2010-03-29:00:00:00,2010-03-29:00:00:00,2010-03-29:00:00:00,40,B,
+64,,1.00000068,,a,2010-03-29:00:00:00,,2010-03-29:00:00:00,40,B,
+65,,1.00000068,,a,2010-03-29:00:00:00,,2010-03-29:00:00:00,40,B,33
+	
+
+################################################################################################
+
 mongoimport --host localhost --port 27017 -c restaurants restaurants.json
 
 docker run -it --rm --name mongo -v mongo-poc-data:/data mongo:3.2.20-jessie mongod
@@ -16,7 +91,11 @@ docker run -it --rm --name mongo --mount 'type=bind,source=/media/absalon/aopazo
 
 docker exec -it mongo bin/bash
 mongoimport --host localhost --port 27017 --mode upsert -c restaurants rest2.json
-mongoimport --host localhost --port 27017 --type csv -c contract_history --headerline export_contract_history.csv 
+mongoimport --host localhost --port 27017 --type csv --headerline -c contract_history export_contract_history.csv 
+
+mongoimport --host localhost --port 27017 --type csv -c test --headerline test
+
+mongoimport --host localhost --port 27017 --type csv -c init init.csv 
 
 
 -------------------
@@ -42,6 +121,44 @@ db.runCommand(
 		verbose: true
                }
              );
+
+---------------------------------
+
+db.test.find({ "C": { $type : "number" } }).
+forEach( function (x) { 
+    x.C = x.C.toString();
+    x.A = x.A.toString();
+    db.test.save(x);
+});
+
+
+db.CONTRACT_ALL.count({"CH_STATUS_VALIDFROM" : {$regex: "^(0[1-9]|[12][0-9]|3[01])-MAR-(0[1-9]0[1-9])"} })
+
+var bulk = db.items.initializeUnorderedBulkOp();
+bulk.find( { status: "D" } ).update( { $set: { status: "I", points: "0" } } );
+bulk.find( { item: null } ).update( { $set: { item: "TBD" } } );
+bulk.execute();
+
+
+var bulk = db.test.initializeUnorderedBulkOp();
+bulk.find().update( { $set: { status: "I", points: "0" } } );
+bulk.find( { item: null } ).update( { $set: { item: "TBD" } } );
+bulk.execute();
+---------------------------
+
+#################
+awk '{printf("%s,", $1)}END{printf("\n")}' colnames.txt
+grep -nr -e 'NUMBER\|FLOAT' colnames.txt | cut -f1 -d:
+grep -nr -e ' DATE' colnames.txt | cut -f1 -d:
+
+
+
+
+
+
+
+
+
 
 
 

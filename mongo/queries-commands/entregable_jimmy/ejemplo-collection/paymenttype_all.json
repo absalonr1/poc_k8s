@@ -1,0 +1,7 @@
+{
+  "_id": ObjectID("5c534af305c5bd00073fe923"),
+  "PAYMENT_ID": -1,
+  "PAYMENTCODE": "12",
+  "PAYMENTNAME": "Pago directo",
+  "PAYMNT_FLOW": "X"
+}

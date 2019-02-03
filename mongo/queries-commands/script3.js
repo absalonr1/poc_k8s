@@ -1,0 +1,410 @@
+//var ruts = ["120391534","619527003","157197444","104648576","795110402","097069875","764377400","136692402","77311000K","214429934","147357613","533008674","141483447","117292886","114693553","762028107","650018060","760716588","092207188","939130004","000000027","761831402","057150270","76003147K","070782677","066221954","049304692","760746592","231603778","094921929","779974502","151154743","760621277","533077803","068887003","068751934","106299013","995770504","760067229","109540900","160110414","760548537","168088833","084094226","968605305","787905005","965920501","609100001","995202905","136349287","218809170","968429604","226817530","761597604","84716400K","880219006","220902730","706598006","83002400K"]
+var ruts = ["094713102"]
+var agg = function(A){
+	var f1 = ISODate().getTime()
+	var cursor = db.CUSTOMER_ALL.aggregate([
+		    {
+			'$match': {
+			    'CSCOMPREGNO': A
+			}
+		    }, 
+		  {
+		    $lookup: {
+		      from: "BILLCYCLE_ASSIGNMENT_HISTORY",
+		      let: {
+			  cid: "$CUSTOMER_ID"
+		      },
+		      pipeline: [
+			{
+			$match: {
+			  $expr: {
+			    $and: [{
+			      $eq: ["$CUSTOMER_ID", "$$cid"]
+			    }]
+			  }
+			}
+		      },
+		      {
+			$sort: {
+			  "VALID_FROM": -1,
+			  "SEQNO": -1
+			}
+		      },
+		      {
+			$limit: 5
+		      }
+		      ],
+		      as: "join1"
+		    }
+		  },
+		  {
+		    $lookup: {
+		      from: 'BILLCYCLE_DEFINITION',
+		      let: {
+			billid: {
+			  $arrayElemAt: ["$join1.BILLCYCLE", 0]
+			}
+		      },
+		      pipeline: [{
+			$match: {
+			  $expr: {
+			    $and: [{
+				$eq: ["$BILLCYCLE", "$$billid"]
+			    }]
+			  }
+			}
+		      }],
+		      as: "bill"
+		    }
+		  },
+		  {
+		    $lookup: {
+		      from: 'CONTRACT_ALL',
+		      let: {
+			ccid: "$CUSTOMER_ID",
+			rut: "$CSCOMPREGNO",
+			accountId: "$CUSTOMER_ID"
+		      },
+		      pipeline: [{
+			$match: {
+			  $expr: {
+			    $and: [{
+				$eq: ["$CUSTOMER_ID", "$$ccid"]
+			    }]
+			  }
+			}
+		      },
+		      {
+			$project: {
+			  _id: false,
+			  "rut": "$$rut",
+			  "accountId": "$$accountId",
+			  "subscriberId": "$CO_ID",
+			  "subscriberType": "$TYPE",
+			  "subscriberIdContract": "$CO_CODE",
+			  "subscriberActivate": "$CO_SIGNED",
+			  "subscriberExpired": "$CO_EXPIR_DATE",
+			  "state": "$CH_STATUS"
+			}
+		      },
+		      {
+			$lookup: {
+			  from: 'CONTR_SERVICES_CAP',
+			  let: {
+			    scoid: "$subscriberId"
+			  },
+			  pipeline: [{
+			    $match: {
+			      $expr: {
+				$and: [{
+				    $eq: ["$CO_ID", "$$scoid"]
+				}]
+			      }
+			    }
+			  },
+			  {
+			    $lookup: {
+			      from: 'DIRECTORY_NUMBER',
+			      let: {
+				did: "$DN_ID"
+			      },
+			      pipeline: [{
+				$match: {
+				  $expr: {
+				    $and: [{
+				        $eq: ["$DN_ID", "$$did"]
+				    }]
+				  }
+				}
+			      },
+			      {
+				$project: {
+				  _id: false,
+				  "Resource": "$DN_NUM"
+				}
+			      }
+			      ],
+			      as: 'dn'
+			    }
+			  },
+			  {
+			    $project: {
+			      _id: false,
+			      "subscriberId": "$$scoid",
+			      "resourceId": "$DN_ID",
+			      "resource": {
+				$arrayElemAt: ["$dn.Resource", 0]
+			      },
+			      "resourceDescription": "Número de celular del subscriptor",
+			      "resourceActivate": "$CS_ACTIV_DATE", 
+			      "resourceDeactivate": "$CS_DEACTIV_DATE",
+			      "resourceState": "$CH_STATUS",
+			      "resourceType": "MSISDN"
+			    }
+			  }  
+			  ],
+			  as: "subscriberResources_MSISDN"
+			}
+		      },
+		      {
+			$lookup: {
+			  from: 'CONTR_SERVICES_CAP',
+			  let: {
+			    scoid: "$subscriberId"
+			  },
+			  pipeline: [{
+			    $match: {
+			      $expr: {
+				$and: [{
+				    $eq: ["$CO_ID", "$$scoid"]
+				}]
+			      }
+			    }
+			  },
+			  {
+			    $lookup: {
+			      from: 'CONTR_DEVICES',
+			      let: {
+				cdcoid: "$CO_ID"
+			      },
+			      pipeline: [{
+				$match: {
+				  $expr: {
+				    $and: [{
+				        $eq: ["$CO_ID", "$$cdcoid"]
+				    }]
+				  }
+				}
+			      },
+			      {
+				$project: {
+				  _id: false,
+				  "PORT_ID": "$PORT_ID"
+				}
+			      }
+			      ],
+			      as: 'cd'
+			    }
+			  },
+			  {
+			    $lookup: {
+			      from: 'port',
+			      let: {
+				portid: {
+				  $arrayElemAt: ["$cd.PORT_ID", 0]
+				}
+			      },
+			      pipeline: [{
+				$match: {
+				  $expr: {
+				    $and: [{
+				        $eq: ["$PORT_ID", "$$portid"]
+				    }
+				    ]
+				  }
+				}
+			      },
+			      {
+				$project: {
+				  _id: false,
+				  "Resource": "$PORT_NUM",
+				  "resourceState": "$PORT_STATUS"
+				}
+			      }
+			      ],
+			      as: 'port'
+			    }
+			  },
+			  {
+			    $project: {
+			      _id: false,
+			      "subscriberId": "$$scoid",
+			      "resourceId": "$DN_ID",
+			      "resource": {
+				$arrayElemAt: ["$port.Resource", 0]
+			      },
+			      "resourceDescription": "Número de celular del subscriptor",
+			      "resourceActivate": "$CS_ACTIV_DATE", 
+			      "resourceDeactivate": "$CS_DEACTIV_DATE",
+			      "resourceState": {
+				$arrayElemAt: ["$port.resourceState", 0]
+			      },
+			      "resourceType": "IMSI"
+			    }
+			  }  
+			  ],
+			  as: "subscriberResources_IMSI"
+			}
+		      },
+		      {
+			  $project: {
+			    _id: false,
+			    "rut": true,
+			    "accountId": true,
+			    "subscriberId": true,
+			    "subscriberType": true,
+			    "subscriberIdContract": true,
+			    "subscriberActivate": true,
+			    "subscriberExpired": true,
+			    "state": true,
+			    "subscriberResources": {$setUnion: ["$subscriberResources_MSISDN", "$subscriberResources_IMSI"]}
+			  }
+			}
+		      ],
+		      as: "subscribers"
+		    }
+		  },
+		  {
+		    $lookup: {
+		      from: 'PAYMENT_ALL',
+		      let: {
+			pcid: "$CUSTOMER_ID"
+		      },
+		      pipeline: [{
+			$match: {
+			  $expr: {
+			    $and: [{
+				$eq: ["$CUSTOMER_ID", "$$pcid"]
+			    }]
+			  }
+			}
+		      },
+		      {
+			$lookup: {
+			  from: 'BANK_ALL',
+			  let: {
+			    bid: "$BANK_ID"
+			  },
+			  pipeline: [{
+			    $match: {
+			      $expr: {
+				$and: [{
+				    $eq: ["$BANK_ID", "$$bid"]
+				}]
+			      }
+			    }
+			  },
+			  {
+			    $project: {
+			      _id: false,
+			      "bankId": "$BANK_ID",
+			      "bankName": "$BANKNAME",
+			      "bankCode": "$BANKCODE",
+			      "bankType": "$BANKTYPE"
+			    }
+			  }
+			  ],
+			  as: 'bank'
+			}
+		      },
+			{
+			$lookup: {
+			  from: 'PAYMENTTYPE_ALL',
+			  let: {
+			    ptid: "$PAYMENT_ID"
+			  },
+			  pipeline: [{
+			    $match: {
+			      $expr: {
+				$and: [{
+				    $eq: ["$PAYMENT_TYPE", "$$ptid"]
+				}]
+			      }
+			    }
+			  },
+			  {
+			    $project: {
+			      _id: false,
+			      "paymentCode": "$PAYMENTCODE",
+			      "paymentName": "$PAYMENTNAME",
+			      "paymentFlow": "$PAYMNT_FLOW"
+			    }
+			  }
+			  ],
+			  as: 'ptype'
+			}
+		      },
+		      {
+			$project: {
+			  _id: false,
+			  "accountId": "$CUSTOMER_ID",
+			  "sequency": "$SEQ_ID",
+			  "paymentId": "$PAYMENT_TYPE",
+			  "paymentCode": {
+			    $arrayElemAt: ["$ptype.paymentCode", 0]
+			  },
+			  "paymentName": {
+			    $arrayElemAt: ["$ptype.paymentName", 0]
+			  },
+			  "paymentFlow": {
+			    $arrayElemAt: ["$ptype.paymentFlow", 0]
+			  },
+			  "pmod": "$PMOD",
+			  "entryDate": "$ENTDATE",
+			  "modifyDate": "$MODDATE",
+			  "userLastModify": "$USERLASTMOD",
+			  "bankId": "$BANK_ID",
+			  "bankName": {
+			    $arrayElemAt: ["$bank.bankNameE", 0]
+			  },
+			  "bankCode": {
+			    $arrayElemAt: ["$bank.bankCode", 0]
+			  },
+			  "bankType": {
+			    $arrayElemAt: ["$bank.bankType", 0]
+			  }
+			}
+		      }
+		      ],
+		      as: 'payments'
+		    }
+		  },
+		  {
+		    $project: {
+		      _id: false,
+		      "rut": "$CSCOMPREGNO",
+		      "account": [{
+			"rut": "$CSCOMPREGNO",
+			"accountId": "$CUSTOMER_ID",
+			"accountIdHigh": "$CUSTOMER_ID_HIGH",
+			"csLevel": "$CSLEVEL",
+			"custCode": "$CUSTCODE",
+			"accountType": "$CSTYPE",
+			"accountActivate": "$CSACTIVATED",
+			"accountDeactivate": "$CSDEACTIVATED",
+			"externalAccountId": "$CUSTOMER_ID_EXT",
+			"state": "$CSST",
+			"docTypeId": "$DOCTYPE_ID",
+			"docTypeDesc": "$DOCTYPE_DESC",
+			"docTypeOutputCode": "$DOCTYPE_OUTPUT_CODE",
+			"billCycle": {
+			  "accountId": "$CUSTOMER_ID",
+			  "billCycle": {
+			    $arrayElemAt: ["$bill.BILLCYCLE", 0]
+			  },
+			  "intervalType": {
+			    $arrayElemAt: ["$bill.INTERVAL_TYPE", 0]
+			  },
+			  "lastRunDate": {
+			    $arrayElemAt: ["$bill.LAST_RUN_DATE", 0]
+			  },
+			  "bchRunDate": {
+			    $arrayElemAt: ["$bill.BCH_RUN_DATE", 0]
+			  },
+			  "billCycleDes": {
+			    $arrayElemAt: ["$bill.DESCRIPTION", 0]
+			  }
+			},
+			"subscribers": "$subscribers",
+			"paymentMethod": "$payments"
+		      }]
+		    }
+		  }
+		])
+	var f2 = ISODate().getTime()
+	print("Duracion de ["+ A + "]: "+(f2-f1) / 1000)
+	return cursor
+}
+ruts.forEach(function(element) {
+  agg(element).forEach(printjson);
+});

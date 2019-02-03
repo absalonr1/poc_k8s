@@ -1,0 +1,10 @@
+{
+    "_id": ObjectID("5c4927ca236ab52aae12c101"),
+    "CUSTOMER_ID": 100,
+    "SEQNO": 1,
+    "BILLCYCLE": 2,
+    "VALID_FROM": "30-MAR-10",
+    "REASON_ID": 1,
+    "USERNAME": "DMI",
+    "COMMENTS": ""
+}

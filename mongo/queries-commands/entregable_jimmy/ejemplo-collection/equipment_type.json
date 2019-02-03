@@ -1,0 +1,9 @@
+{
+  "_id": ObjectID("5c45604728135756d73d4e85"),
+  "EQUIPMENT_TYPE_ID": 1064,
+  "SHDES": "DUM3G",
+  "DESCRIPTION": "Dummy 3g",
+  "COMPANY": "HUAWEI",
+  "USE_SIM_IND": "Y",
+  "SUBMARKET_RESTRICTED_FLAG": "U"
+}
