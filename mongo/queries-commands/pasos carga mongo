@@ -1,0 +1,130 @@
+oc login https://master.novaltepre.corp:8443 -u admin -p Redhat.WOM2017*.
+oc project desa-mongodb
+oc rsh mongodb-pre-production-primary-0
+PRE:
+mongo -u KAn -p 6zrYv3hkVzCbqSaq pre-productiondb
+
+oc login https://master.novalte.corp:8443 -u alopazog -p S1000rr2016
+oc project mongodb
+oc rsh mongodb-production-primary-0
+bash
+cd /opt/data/mongodb-resp/
+
+PROD: mongo -u KAn -p 6zrYv3hkVzCbqSaq productiondb
+
+nohup mongoimport -d productiondb -c EQUIPMENT2 --file /opt/data/mongodb-resp/EQUIPMENT.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+
+#################
+PROFILE_SERVICE
+entry_date >= to_date('01-01-2018','dd-mm-YYYY'); 
+ 
+PR_SERV_SPCODE_HIST
+entry_date >= to_date('01-01-2018','dd-mm-YYYY');     
+ 
+PR_SERV_STATUS_HIST
+entry_date >= to_date('01-01-2018','dd-mm-YYYY');  
+        
+EQUIPMENT
+eq_entdate >= to_date('01-01-201','dd-mm-YYYY');
+
+#################
+awk '{printf("%s,", $1)}END{printf("\n")}' colnames.txt
+grep -nr -e 'NUMBER\|FLOAT' colnames.txt | cut -f1 -d:
+grep -nr -e ' DATE' colnames.txt | cut -f1 -d:
+
+grep -oP "^([^~]*\~){1}\K[^~]*" PR_SERV_STATUS_HIST.chunk.csv | sort | uniq -c
+grep -oP "^([^~]*\~){2}\K[^~]*" CUSTOMER_ALL.csv > rut_1.csv
+#################
+----------------
+EQUIPMENT---------------
+----------------
+
+awk -F',' -f filtra.awk -v fieldnum=23 -v filterdate=2018-06-01 -v datefields=5,8,9,12,20,23 -v columnnames="EQUIPMENT_ID,CUSTOMER_ID,IMEI,REC_VERSION,EXPIRATION_DATE,EQUIPMENT_TYPE_ID,EQ_STATUS,EQ_STATUS_MOD_DATE,EQ_MOD_DATE,EQ_MOD_FLAG,DEALER_ID,EQ_ASSIGN_DATE,BUSINESS_UNIT_ID,EQ_SERIAL_NUM,EQ_FIRMWARE_VRS,EQ_SUBSIDY_UNLOCK_CODE,TRANSACTION_ID,EQ_STATUS_REQUEST,EQ_BLACK_LIST_FLAG,EQ_EXPORT_DATE,EQ_EXPORT_FILE_NAME,VENDCODE,EQ_ENTDATE" -v numberfields=1,2,4,6,11,13,17 EQUIPMENT.csv > EQUIPMENT.json
+
+nohup mongoimport -d productiondb -c EQUIPMENT --file /opt/data/mongodb-resp/EQUIPMENT.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+--------------------------------
+PR_SERV_SPCODE_HIST-------------
+--------------------------------
+
+awk -F',' -f filtra.awk -v fieldnum=8 -v filterdate=2018-06-01 -v datefields=7,8 -v columnnames="PROFILE_ID,CO_ID,SNCODE,HISTNO,SPCODE,TRANSACTIONNO,VALID_FROM_DATE,ENTRY_DATE,REQUEST_ID,REC_VERSION,ENTRY_USER" -v numberfields=1,2,3,4,5,6,9,10 PR_SERV_SPCODE_HIST.csv > PR_SERV_SPCODE_HIST.json
+
+nohup mongoimport -d productiondb -c PR_SERV_SPCODE_HIST --file /opt/data/mongodb-resp/PR_SERV_SPCODE_HIST.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+--------------------------------
+PROFILE_SERVICE   ----------------
+--------------------------------
+
+awk -F',' -f filtra.awk -v fieldnum=6 -v filterdate=2018-06-01 -v datefields=6,9,18,19 -v columnnames="PROFILE_ID,CO_ID,SNCODE,SPCODE_HISTNO,STATUS_HISTNO,ENTRY_DATE,CHANNEL_NUM,OVW_ACC_FIRST,DATE_BILLED,SN_CLASS,OVW_SUBSCR,SUBSCRIPT,OVW_ACCESS,OVW_ACC_PRD,ACCESSFEE,CHANNEL_EXCL,DIS_SUBSCR,INSTALL_DATE,TRIAL_END_DATE,PRM_VALUE_ID,CURRENCY,SRV_TYPE,SRV_SUBTYPE,OVW_ADV_CHARGE,ADV_CHARGE,ADV_CHARGE_PRD,DELETE_FLAG,REC_VERSION,ATTRIB_HISTNO,SALES_CONTACT_ID,SALES_ZONE_ID,SUSP_BEHAVIOR_REMAIN,SUSP_BEHAVIOR_ACTIV,SUSP_BEHAVIOR_CHANGE,PURGE_FLAG" -v numberfields=1,2,3,4,5,7,10,12,14,15,17,20,21,25,26,28,29,30,31 PROFILE_SERVICE.csv > PROFILE_SERVICE.json
+
+nohup mongoimport -d productiondb -c PROFILE_SERVICE --file /opt/data/mongodb-resp/PROFILE_SERVICE.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+--------------------------------
+PAYMENT_ALL   ----------------
+--------------------------------
+
+awk -F',' -f formatea.awk -v datefields=13,26,27 -v columnnames="CUSTOMER_ID,SEQ_ID,BANK_ID,ACCOUNTOWNER,BANKACCNO,BANKSUBACCOUNT,BANKNAME,BANKZIP,BANKCITY,BANKSTREET,VALID_THRU_DATE,AUTH_OK,AUTH_DATE,AUTH_NO,AUTH_CREDIT,AUTH_TN,AUTH_REMARK,CEILINGAMT,BANKSTATE,BANKCOUNTY,BANKSTREETNO,BANKCOUNTRY,ORDERNUMBER,ACT_USED,PAYMENT_TYPE,ENTDATE,MODDATE,USERLASTMOD,PMOD,SWIFTCODE,BANK_CONTROLKEY,CURRENCY,REC_VERSION,ENTRY_USER" -v numberfields=1,2,3,15,18,22,25,32,33 PAYMENT_ALL.csv > PAYMENT_ALL.json2
+
+nohup mongoimport -d productiondb -c PAYMENT_ALL --file /opt/data/mongodb-resp/PAYMENT_ALL.json2 --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+--------------------------------
+PORT   ----------------
+--------------------------------
+
+awk -F',' -f formatea.awk -v datefields=6,18,21,22,23,24,25 -v columnnames="PORT_ID,PLCODE,HLCODE,PORT_NUM,PORT_STATUS,PORT_STATUSMODDAT,PORT_KI,PORT_KIND,PORT_CHANNELS,PORT_CHANNELS_EXCL,SM_ID,PORT_SM_REQU,SIMPOH_ID,SIMPOT_ID,SIMPOT_BATCH,DN_ID,DEALER_ID,PORT_ASSIGN_DATE,PORT_TKEY,PORT_STATUS_REQU,PORT_STA_REQU_DATE,PORT_ACTIV_DATE,PORT_DEACTIV_DATE,PORT_ENTDATE,PORT_MODDATE,PORT_USERLASTMOD,PRE_ACTIVATED,SMS_UPDATE,PORT_RIC_BATCH,EXTERNAL_IND,CAPACITY,AVAILABLE_CAPACITY,PRM_VALUE_ID,REC_VERSION,PORT_NPCODE,TRANSACTION_ID,BUSINESS_UNIT_ID,GHLCODE" -v numberfields=1,2,3,9,10,11,12,13,14,15,16,17,31,32,33,34,35,36,37,38 SYSADM.PORT.csv > PORT2.json
+
+nohup mongoimport -d productiondb -c PORT --file /opt/data/mongodb-resp/PORT2.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+
+
+
+--------------------------------
+CONTR_DEVICES   ----------------
+--------------------------------
+
+awk -F',' -f formatea.awk -v datefields=8,9,10,11,12 -v columnnames="CD_ID,CD_SEQNO,CO_ID,PORT_ID,DN_ID,EQ_ID,CD_STATUS,CD_ACTIV_DATE,CD_DEACTIV_DATE,CD_VALIDFROM,CD_ENTDATE,CD_MODDATE,CD_USERLASTMOD,CD_SM_NUM,CD_CHANNELS,CD_CHANNELS_EXCL,CD_EQ_NUM,CD_PENDING_STATE,CD_RS_ID,CD_PLCODE,HLCODE,REC_VERSION" -v numberfields=1,2,3,4,5,6,15,16,19,20,21,22 CONTR_DEVICES.csv > CONTR_DEVICES.json
+
+nohup mongoimport -d productiondb -c CONTR_DEVICES --file /opt/data/mongodb-resp/SYSADM.CONTR_DEVICES.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+
+
+
+#################
+awk '{printf("%s,", $1)}END{printf("\n")}' colnames.txt
+grep -nr -e 'NUMBER\|FLOAT' colnames.txt | cut -f1 -d:
+grep -nr -e ' DATE' colnames.txt | cut -f1 -d:
+#################
+
+
+--------------------------------
+PR_SERV_STATUS_HIST ????----------------
+--------------------------------
+
+awk -F',' -f filtra.awk -v fieldnum=9 -v filterdate=2018-06-01 -v datefields=8,9 -v columnnames="PROFILE_ID,CO_ID,SNCODE,HISTNO,STATUS,REASON,TRANSACTIONNO,VALID_FROM_DATE,ENTRY_DATE,REQUEST_ID,REC_VERSION,RS_ID,USERNAME,USER_REASON,ENTRY_USER,JOB_ID" -v numberfields=1,2,3,4,6,7,10,11,12,14,16 PR_SERV_STATUS_HIST.csv > PR_SERV_STATUS_HIST.json
+
+
+nohup mongoimport -d productiondb -c PR_SERV_STATUS_HIST --file /opt/data/mongodb-resp/PR_SERV_STATUS_HIST.json --jsonArray -u KAn -p 6zrYv3hkVzCbqSaq --numInsertionWorkers 600 --batchSize 100 &
+
+
+
+
+Separador de campo              -F','
+Archivo de comandos             -f filtra.awk
+Campo fecha por el que filtra   -v fieldnum=8
+Fecha mayor o igual del filtro  -v filterdate=2018-01-01
+Campos fecha para reformateo    -v datefields=8,9,23
+Nombres de las columnas         -v columnnames="EQUIPMENT_ID,CUSTOMER_ID,..."
+Columnas de tipo number         -v numberfields=1,2,4,6,11,13,17
+Archivo de entrada              EQUIPMENT.csv
+Redirección de salida           > EQUIPMENT.json
+
+Por cada 10.000 registros procesados imprime un punto ("."), el cual no sale en el archivo de salida.
+Cada 1.000.000 registros procesados imprime un Enter
+
+

@@ -1,0 +1,66 @@
+
+
+BANK_ALL.. recargar
+
+MPUSNTAB .. recargar
+
+CCONTACT_ALL recargar
+
+
+PRODUCTOS_VENDIDOS .. re-cargar
+
+RATEPLAN .. recargar, dos casos
+
+{ "_id" : ObjectId("5c33cd9a1fa4965be663bdf2"), "DES" : "0x53f36c6f20566f7a20456d7020333030206d696e" }
+{ "_id" : ObjectId("5c33cd9a1fa4965be663bdfa"), "DES" : "0x53f36c6f20566f7a20456d7020343030206d696e" }
+
+
+select * from provi_bols.NEXTEL_CATALOGO_PLAN where shdes_plan = 'SVE02';
+
+SVE01
+Sólo Voz Emp 300 min
+
+SVE02
+Sólo Voz Emp 400 min
+
+select * from RATEPLAN where TMCODE = 332;
+
+
+ "TMCODE": 331,
+ Sólo Voz Emp 300 min
+ 
+   "TMCODE": 332,
+   Sólo Voz Emp 400 min
+
+-----
+
+
+NEXTEL_CATALOGO_PLAN .. resuelto
+
+{ "_id" : ObjectId("5c3fb53a4941eec1a9af6db8"), "DESC_PLAN" : "0x53f36c6f20566f7a20456d7020333030206d696e" }
+
+{"SHDES_PLAN" : "SVE01", "DESC_PLAN" : "Sólo Voz Emp 300 min", "FAMILY_PLAN" : "Personas", "SEGMENT_PLAN" : "Business", "TYPE_PLAN" : "Libre", "ACCESS_FEE" : NumberLong(16000), "UNIT_ON_NET" : null, "TYPE_UNIT_ON_NET" : null, "UNIT_OFF_NET" : null, "TYPE_UNIT_OFF_NET" : null, "UNIT_ALL_DEST" : null, "TYPE_UNIT_ALL_DEST" : null, "UNIT_SMS" : "0", "UNIT_PTT" : null, "TYPE_UNIT_PTT" : null, "UNIT_CAP1_PCRF" : NumberLong(0), "TYPE_UNIT_CAP1_PCRF" : "GB", "DOWN_CAP1" : null, "UPD_CAP1" : null, "FLAG_HYBRID" : "N", "LAYOUT_TYPE_APP" : "PREPAID" }
+
+{ "_id" : ObjectId("5c3fb53b4941eec1a9af7291"), "DESC_PLAN" : "0x53f36c6f20566f7a20456d7020343030206d696e" }
+
+{ "SHDES_PLAN" : "SVE02", "DESC_PLAN" : "Sólo Voz Emp 400 min", "FAMILY_PLAN" : "Personas", "SEGMENT_PLAN" : "Business", "TYPE_PLAN" : "Libre", "ACCESS_FEE" : NumberLong(22000), "UNIT_ON_NET" : null, "TYPE_UNIT_ON_NET" : null, "UNIT_OFF_NET" : null, "TYPE_UNIT_OFF_NET" : null, "UNIT_ALL_DEST" : null, "TYPE_UNIT_ALL_DEST" : null, "UNIT_SMS" : "0", "UNIT_PTT" : null, "TYPE_UNIT_PTT" : null, "UNIT_CAP1_PCRF" : NumberLong(0), "TYPE_UNIT_CAP1_PCRF" : "GB", "DOWN_CAP1" : null, "UPD_CAP1" : null, "FLAG_HYBRID" : "N", "LAYOUT_TYPE_APP" : "PREPAID" }
+
+
+
+PAYMENTTYPE_ALL  
+solo 1 caso:
+	{ "_id" : ObjectId("5c251daa7b6abd7fc46eaf3d"), "PAYMENTNAME" : "D�bito Directo Bancos" }
+Correccion: 
+	db.PAYMENTTYPE_ALL.update({"_id":ObjectId("5c251daa7b6abd7fc46eaf3d")},{"PAYMENTNAME":"Debito Directo Bancos"})
+
+COUNTRY .. OK
+
+DOCUMENT_TYPE_SII_CODE -..OK
+
+EQUIPMENT_TYPE .. OK
+
+MIN_PERIOD_LENGTH .. OK
+
+MPUSPTAB ...OK
+
+BCH .. OK

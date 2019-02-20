@@ -1,0 +1,94 @@
+db.customer_all.aggregate([{
+        $match: {
+            "CSCOMPREGNO": 157197444
+        }
+    },
+    {
+        $lookup: {
+            from: "bah",
+            let: {
+                cid: "$CUSTOMER_ID"
+            },
+            pipeline: [{
+                    $match: {
+                        $expr: {
+                            $and: [{
+                                    $eq: ["$CUSTOMER_ID", "$$cid"]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    $sort: {
+                        "VALID_FROM": -1,
+                        "SEQNO": -1
+                    }
+                },
+                {
+                    $limit: 5
+                }
+            ],
+            as: "join1"
+        }
+    },
+
+    {
+        $lookup: {
+            from: "billcycle_definition",
+            let: {
+                billid: {
+                    $arrayElemAt: ["$join1.BILLCYCLE", 0]
+                }
+            },
+            pipeline: [{
+                $match: {
+                    $expr: {
+                        $and: [{
+                            $eq: ["$_id", "$$billid"]
+                        }]
+                    }
+                }
+            }],
+            as: "bill"
+        }
+    },
+    {
+        $project: {
+            _id: false,
+            accountId: "$_id",
+            rut: "$CSCOMPREGNO",
+            accountIdHigh: "$CUSTOMER_ID_HIGH",
+            paymentResp: "$PAYMNTRESP",
+            csLevel: "$CSLEVEL",
+            custCode: "$CUSTCODE",
+            accountType: "$CSTYPE",
+            accountActivate: "$CSACTIVATED",
+            accountDeactivate: "$CSDEACTIVATED",
+            externalAccountId: "$CUSTOMER_ID_EXT",
+            docTypeId: "$DOCTYPE_ID",
+            docTypeDesc: "$DOCTYPE_DESC",
+            docTypeOutputCode: "$DOCTYPE_OUTPUT_CODE",
+            billCycle: {
+                accountId: "$_id",
+                billCycle: {
+                    $arrayElemAt: ["$bill._id", 0]
+                },
+                intervalType: {
+                    $arrayElemAt: ["$bill.INTERVAL_TYPE", 0]
+                },
+                lastRunDate: {
+                    $arrayElemAt: ["$bill.LAST_RUN_DATE", 0]
+                },
+                bchRunDate: {
+                    $arrayElemAt: ["$bill.BCH_RUN_DATE", 0]
+                },
+                billCycleDes: {
+                    $arrayElemAt: ["$bill.DESCRIPTION", 0]
+                }
+
+            },
+			billCycleAssignmentHistory: "$join1"
+        }
+    }
+]).pretty()

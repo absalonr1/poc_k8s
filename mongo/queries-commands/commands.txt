@@ -1,5 +1,23 @@
+2 minutos PR_ csv chunk 10mill, todos tring
+3 json sin array
+3 json con array
+
+123k co_id distintos --> 30s !!!
+
+tr '\n' ',' < PR_SERV_STATUS_HIST.chunk.csv.json > test
+
+sed -i '1i[' sample.txt
+sed -i -e "\$a]" test
+
+sed -i '$ s/.$//' sample.txt
+truncate -s-1 file
+
+
+mongo -u KAn -p 6zrYv3hkVzCbqSaq productiondb
 mongo localhost:27017/productiondb -u KAn -p 6zrYv3hkVzCbqSaq script1.js 
-mongo localhost:27017/productiondb -u KAn -p 6zrYv3hkVzCbqSaq script3.js >> out1.txt
+mongo localhost:27017/productiondb -u KAn -p 6zrYv3hkVzCbqSaq script4.js >> out4.txt
+
+mongo -u KAn -p 6zrYv3hkVzCbqSaq productiondb
 
 --------
 db.test.find({ "C": { $type : "number" } }).forEach( function (x) {
@@ -8,7 +26,7 @@ db.test.find({ "C": { $type : "number" } }).forEach( function (x) {
 });
 
 [Separador es '~']
-grep -oP "^([^~]*\~){34}\K[^~]*" CUSTOMER_ALL.csv > rut_2.csv
+grep -oP "^([^~]*\~){34}\   K[^~]*" CUSTOMER_ALL.csv > rut_2.csv
 grep -oP "^([^~]*\~){33}\K[^~]*" CUSTOMER_ALL.csv > rut_2.csv
 grep -c '^0'  rut_1.csv
 --------
@@ -150,16 +168,3 @@ bulk.execute();
 awk '{printf("%s,", $1)}END{printf("\n")}' colnames.txt
 grep -nr -e 'NUMBER\|FLOAT' colnames.txt | cut -f1 -d:
 grep -nr -e ' DATE' colnames.txt | cut -f1 -d:
-
-
-
-
-
-
-
-
-
-
-
-
-

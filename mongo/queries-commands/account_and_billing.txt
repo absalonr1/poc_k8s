@@ -39,19 +39,23 @@ AND BILLCYCLE_DEFINITION.APPROVED_IND = 'X'
 
 -- ################################################################################################################################
 
-mongoimport --host localhost --port 27017 --type csv -c bah --headerline BILLCYCLE_ASSIGNMENT_HISTORY.csv
+sed -i -- 's/~/,/g' BILLCYCLE_ASSIGNMENT_HISTORY.csv
+sed -i -- 's/~/,/g' BILLCYCLE_DEFINITION.csv 
+sed -i -- 's/~/,/g' CUSTOMER_ALL.csv 
+
+mongoimport --host localhost --port 27017 --type csv -c bah --fieldFile h_BILLCYCLE_ASSIGNMENT_HISTORY.txt BILLCYCLE_ASSIGNMENT_HISTORY.csv
 db.bah.createIndex( { "CUSTOMER_ID": 1})
 
 sed -i "1s/CUSTOMER_ID/_id/" CUSTOMER_ALL.csv
-mongoimport --host localhost --port 27017 --type csv -c customer_all --headerline CUSTOMER_ALL.csv
+mongoimport --host localhost --port 27017 --type csv -c customer_all --fieldFile h_CUSTOMER_ALL.txt CUSTOMER_ALL.csv
 db.customer_all.createIndex( { "CSCOMPREGNO": 1})
 
 sed -i "1s/DOCTYPE_ID/_id/" DOCUMENT_TYPE_SII_CODE.csv
-mongoimport --host localhost --port 27017 --type csv -c document_type_sii_code --headerline DOCUMENT_TYPE_SII_CODE.csv
+mongoimport --host localhost --port 27017 --type csv -c document_type_sii_code --fieldFile h_DOCUMENT_TYPE_SII_CODE.txt DOCUMENT_TYPE_SII_CODE.csv
 
 
 sed -i "1s/BILLCYCLE/_id/" BILLCYCLE_DEFINITION.csv
-mongoimport --host localhost --port 27017 --type csv -c billcycle_definition --headerline BILLCYCLE_DEFINITION.csv
+mongoimport --host localhost --port 27017 --type csv -c billcycle_definition --fieldFile h_BILLCYCLE_DEFINITION.txt BILLCYCLE_DEFINITION.csv
 
 
 [ "bah", "billcycle_definition", "customer_all", "document_type_sii_code" ]

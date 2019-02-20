@@ -1,0 +1,314 @@
+{
+	"account" : [
+		{
+			"_id" : ObjectId("5c3facb74941eec1a9b6a461"),
+			"rut" : "157197444",
+			"accountId" : NumberLong(27),
+			"accountIdHigh" : null,
+			"csLevel" : "40",
+			"custCode" : "1.00000026",
+			"accountType" : "d",
+			"accountActivate" : ISODate("2010-03-26T00:00:00Z"),
+			"accountDeactivate" : null,
+			"externalAccountId" : null,
+			"state" : null,
+			"docTypeId" : NumberLong(1),
+			"billCycle" : {
+				"accountId" : NumberLong(27),
+				"billCycle" : "02",
+				"intervalType" : "M",
+				"lastRunDate" : ISODate("2019-01-16T00:00:00Z"),
+				"bchRunDate" : ISODate("2019-02-16T00:00:00Z"),
+				"billCycleDes" : "02 - Corte 16"
+			},
+			"subscribers" : [
+				{
+					"rut" : "157197444",
+					"accountId" : NumberLong(27),
+					"subscriberId" : NumberLong(271),
+					"subscriberType" : "S",
+					"subscriberIdContract" : "CONTR0000001147",
+					"subscriberActivate" : ISODate("2010-03-26T00:00:00Z"),
+					"subscriberExpired" : null,
+					"state" : "d",
+					"subscriberResources" : [
+						{
+							"subscriberId" : NumberLong(271),
+							"resourceId" : NumberLong(90059),
+							"resource" : "56*134*12414",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(271),
+							"resourceId" : NumberLong(90059),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(271),
+							"resourceId" : NumberLong(124317),
+							"resource" : "56981099038",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(271),
+							"resourceId" : NumberLong(124317),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "IMSI"
+						}
+					]
+				},
+				{
+					"rut" : "157197444",
+					"accountId" : NumberLong(27),
+					"subscriberId" : NumberLong(1213),
+					"subscriberType" : "S",
+					"subscriberIdContract" : "CONTR0000001411",
+					"subscriberActivate" : ISODate("2010-03-26T00:00:00Z"),
+					"subscriberExpired" : null,
+					"state" : "d",
+					"subscriberResources" : [
+						{
+							"subscriberId" : NumberLong(1213),
+							"resourceId" : NumberLong(90062),
+							"resource" : "56*134*12415",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(1213),
+							"resourceId" : NumberLong(90062),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(1213),
+							"resourceId" : NumberLong(124319),
+							"resource" : "56981099039",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(1213),
+							"resourceId" : NumberLong(124319),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2010-03-26T00:00:00Z"),
+							"resourceDeactivate" : ISODate("2010-12-07T11:24:15Z"),
+							"resourceType" : "IMSI"
+						}
+					]
+				}
+			],
+			"paymentMethod" : [
+				{
+					"accountId" : NumberLong(27),
+					"sequency" : NumberLong(1),
+					"paymentId" : NumberLong(-3),
+					"paymentCode" : "Z",
+					"paymentName" : "PAT",
+					"paymentFlow" : "D",
+					"pmod" : "X",
+					"entryDate" : ISODate("2010-12-03T10:59:22Z"),
+					"modifyDate" : ISODate("2013-10-02T02:11:32Z"),
+					"userLastModify" : "NIICRM",
+					"bankId" : null
+				}
+			]
+		},
+		{
+			"_id" : ObjectId("5c3face74941eec1a9ba71a3"),
+			"rut" : "157197444",
+			"accountId" : NumberLong(301025),
+			"accountIdHigh" : null,
+			"csLevel" : "40",
+			"custCode" : "1.109813",
+			"accountType" : "a",
+			"accountActivate" : ISODate("2013-10-01T17:55:12Z"),
+			"accountDeactivate" : null,
+			"externalAccountId" : null,
+			"state" : null,
+			"docTypeId" : NumberLong(1),
+			"billCycle" : {
+				"accountId" : NumberLong(301025),
+				"billCycle" : "04",
+				"intervalType" : "M",
+				"lastRunDate" : ISODate("2018-04-01T00:00:00Z"),
+				"bchRunDate" : ISODate("2018-05-01T00:00:00Z"),
+				"billCycleDes" : "Dummy"
+			},
+			"subscribers" : [
+				{
+					"rut" : "157197444",
+					"accountId" : NumberLong(301025),
+					"subscriberId" : NumberLong(743647),
+					"subscriberType" : "S",
+					"subscriberIdContract" : "CONTR0000743628",
+					"subscriberActivate" : ISODate("2013-10-01T00:00:00Z"),
+					"subscriberExpired" : null,
+					"state" : "d",
+					"subscriberResources" : [
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(844488),
+							"resource" : "000000000168651",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(844488),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(929726),
+							"resource" : "46*204*13660",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(929726),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(1559466),
+							"resource" : "56964545733",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743647),
+							"resourceId" : NumberLong(1559466),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:54Z"),
+							"resourceDeactivate" : ISODate("2015-01-25T10:37:10Z"),
+							"resourceType" : "IMSI"
+						}
+					]
+				},
+				{
+					"rut" : "157197444",
+					"accountId" : NumberLong(301025),
+					"subscriberId" : NumberLong(743638),
+					"subscriberType" : "S",
+					"subscriberIdContract" : "CONTR0000743619",
+					"subscriberActivate" : ISODate("2013-10-01T00:00:00Z"),
+					"subscriberExpired" : null,
+					"state" : "d",
+					"subscriberResources" : [
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(844489),
+							"resource" : "000000000168652",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(844489),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(929730),
+							"resource" : "46*204*13664",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(929730),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "IMSI"
+						},
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(1559467),
+							"resource" : "56964545734",
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "MSISDN"
+						},
+						{
+							"subscriberId" : NumberLong(743638),
+							"resourceId" : NumberLong(1559467),
+							"resourceDescription" : "Número de celular del subscriptor",
+							"resourceActivate" : ISODate("2013-10-01T17:55:56Z"),
+							"resourceDeactivate" : ISODate("2014-10-31T13:08:56Z"),
+							"resourceType" : "IMSI"
+						}
+					]
+				}
+			],
+			"paymentMethod" : [
+				{
+					"accountId" : NumberLong(301025),
+					"sequency" : NumberLong(1),
+					"paymentId" : NumberLong(-3),
+					"paymentCode" : "Z",
+					"paymentName" : "PAT",
+					"paymentFlow" : "D",
+					"pmod" : "X",
+					"entryDate" : ISODate("2013-10-01T17:55:12Z"),
+					"modifyDate" : ISODate("2015-01-25T10:38:18Z"),
+					"userLastModify" : "NIICRM",
+					"bankId" : null
+				},
+				{
+					"accountId" : NumberLong(301025),
+					"sequency" : NumberLong(2),
+					"paymentId" : NumberLong(-3),
+					"paymentCode" : "Z",
+					"paymentName" : "PAT",
+					"paymentFlow" : "D",
+					"pmod" : null,
+					"entryDate" : ISODate("2015-01-25T10:38:18Z"),
+					"modifyDate" : ISODate("2015-01-25T10:38:18Z"),
+					"userLastModify" : "NIICRM",
+					"bankId" : null
+				}
+			]
+		}
+	],
+	"rut" : "157197444"
+}
