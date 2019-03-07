@@ -1,0 +1,19 @@
+mkdir db && sudo chmod 777 db
+docker volume create --driver local --opt device=/dev/sdc1 --opt type=ext4 --opt o=rw mongo-volume
+docker run --user 1000:1000 --name mongo2 -v mongo-volume:/data/db mongo:4.0.3 mongod
+
+docker volume rm mongo-volume && docker container rm mongo2
+
+DOCKER IMG MONGO: 
+mongodb:x:999:999::/home/mongodb:
+usermod -u 1000 mongodb && groupmod -g 1000 mongodb
+
+
+sudo fdisk -l
+
+Disk /dev/sdb: 931,5 GiB, 1000204886016 bytes, 1953525168 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: A72AE3C3-399A-48D9-81BC-ECD18071EFF7
